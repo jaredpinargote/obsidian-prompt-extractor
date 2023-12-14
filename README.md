@@ -1,7 +1,4 @@
 # Obsidian Prompt Extractor
-
-## Introduction
-
 I wanted ChatGPT to understand context from my Obsidian vault. I kept copying and pasting my content. That was annoying so I looked into RAG (Retrieval Augmented Generation), but that was much more complicated that what I really needed.
 
 So I create a tool to help make extracting relevant context for ChatGPT much faster.
