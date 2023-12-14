@@ -36,7 +36,7 @@ export default class MyPlugin extends Plugin {
 		
 				const maxTotalChars = 16000;
 				const maxCharsPerLink = Math.floor(maxTotalChars / fileMetadata.links.length);
-				let allContents = "";
+				let allContents = "# Context\n";
 		
 				for (const link of fileMetadata.links) {
 					const linkedFileName = link.link;
@@ -47,7 +47,7 @@ export default class MyPlugin extends Plugin {
 					if (linkedFile && linkedFile instanceof TFile) {
 						let content = await this.app.vault.read(linkedFile);
 						content = content.substring(0, maxCharsPerLink); // Limit the content length
-						allContents += content + "\n\n";
+						allContents += "## " + linkedFileName + "\n" + content + "\n\n";
 		
 						if (allContents.length > maxTotalChars) {
 							allContents = allContents.substring(0, maxTotalChars); // Enforce total max length
@@ -74,8 +74,9 @@ export default class MyPlugin extends Plugin {
 		
 				const currentFileName = view.file.basename.toLowerCase();
 				const currentFileContent = await this.app.vault.read(view.file);
-				let maxContentLength = 16000 - currentFileContent.length;
-				let allContents = currentFileContent + "\n\n"; // Start with current file content
+				// let maxContentLength = 16000 - currentFileContent.length;
+				let maxContentLength = 16000;
+				let allContents = "# Snippets\n"; // Start with current file content
 		
 				const backlinkInstances = [];
 				const files = this.app.vault.getFiles();
@@ -109,7 +110,7 @@ export default class MyPlugin extends Plugin {
 					const snippetEnd = Math.min(instance.linkPosition.end.offset + Math.floor(maxSnippetLength / 2), fileContent.length);
 					const snippet = fileContent.substring(snippetStart, snippetEnd);
 		
-					allContents += snippet + "\n\n";
+					allContents += "## " + instance.file.name + "\n" + snippet + "\n\n";
 		
 					if (allContents.length > maxContentLength) {
 						console.log("Reached maximum content length for clipboard.");
